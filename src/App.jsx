@@ -1,16 +1,36 @@
 import { Outlet } from 'react-router'
-import Header from './components/shared/Header'
-import Footer from './components/shared/Footer'
+import { useDispatch, useSelector } from 'react-redux'
+import { checkAuthStatus, clearError } from './app/slices/authSlice'
+import { useEffect, useRef } from 'react'
+import Loader from './components/shared/Loader'
+
 
 function App() {
+  const dispatch = useDispatch()
+  const { status, error } = useSelector(state => state.auth)
+  const hasCheckedAuth = useRef(false)
 
-  return (
-     <>
-     <Header />
-     <Outlet />
-     <Footer />
-     </>
-  )
+  useEffect(() => {
+    // Only check auth status once on app mount
+    if (!hasCheckedAuth.current && status === "idle") {
+      hasCheckedAuth.current = true
+      dispatch(checkAuthStatus())
+    }
+  }, [dispatch, status])
+
+  // Clear any auth errors when component mounts
+  useEffect(() => {
+    if (error) {
+      dispatch(clearError())
+    }
+  }, [dispatch, error])
+
+  // Show loader while checking authentication on app start
+  if (status === "loading") {
+    return <Loader />
+  }
+
+  return <Outlet />
 }
 
 export default App

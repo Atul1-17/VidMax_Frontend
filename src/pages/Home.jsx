@@ -2,7 +2,6 @@ import React from 'react'
 import { Container } from '../components/shared/Container'
 
 function Home() {
-
   const Data = [
     {
       title: "The first video",
@@ -12,7 +11,7 @@ function Home() {
   ]
 
   return (
-    <div className='w-full h-[81vh] bg-re-500 flex flex-col items-center p-4 overflow-scroll gap-4'>
+    <div className='w-full h-[81vh] bg-re-500 flex flex-col items-center p-5 overflow-scroll gap-4'>
       <Container Data={Data}/>
     </div>
   )

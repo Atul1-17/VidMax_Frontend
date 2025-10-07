@@ -10,7 +10,7 @@ function Like() {
   ]
 
   return (
-    <div className='w-full h-[81vh] bg-re-500 flex flex-col items-center p-4 overflow-scroll gap-4'>
+    <div className='w-full h-[81vh] bg-re-500 flex flex-col items-center p-5 overflow-scroll gap-4'>
         <Container Data={Data}/>
     </div>
   )
