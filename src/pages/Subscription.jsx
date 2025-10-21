@@ -2,8 +2,11 @@ import {
   Card,
 } from "@/components/ui/card"
 import { Avatar, AvatarImage, AvatarFallback } from "../components/ui/avatar"
+import { useNavigate } from "react-router"
 
 function Subscription() {
+
+  const navigate = useNavigate()
 
   const Data = [
     {
@@ -20,7 +23,7 @@ function Subscription() {
   return (
     <div className="w-full h-[81vh] bg-re-500 flex flex-col items-center p-5 overflow-scroll gap-4">
       {Data.map((vid) => (
-          <Card key={vid.username} className="w-full h-[10vh] flex items-center max-w-sm gap-5">
+          <Card key={vid.username} onClick={()=> navigate("/channelProfile")} className="w-full h-[10vh] flex items-center max-w-sm gap-5">
             <Avatar className="h-auto w-15 ml-5">
               <AvatarImage className="object-cover" src={vid.Image} />
               <AvatarFallback>CN</AvatarFallback>

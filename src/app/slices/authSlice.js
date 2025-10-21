@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { apiClient, fileApiClient } from "../../lib/axios";
-import axios from "axios";
 
 export const loginUser = createAsyncThunk(
     "user/login",
@@ -213,7 +212,6 @@ const authSlice = createSlice({
             .addCase(changeCurrentPassword.fulfilled, (state, action) => {
                 state.status = "succeded"
                 state.error = null
-                state.user = action.payload.data
                 state.isAuthenticated = true
             })
             .addCase(changeCurrentPassword.rejected, (state, action) => {

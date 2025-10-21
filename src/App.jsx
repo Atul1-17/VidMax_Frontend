@@ -11,14 +11,13 @@ function App() {
   const hasCheckedAuth = useRef(false)
 
   useEffect(() => {
-    // Only check auth status once on app mount
     if (!hasCheckedAuth.current && status === "idle") {
       hasCheckedAuth.current = true
       dispatch(checkAuthStatus())
     }
   }, [dispatch, status])
 
-  // Clear any auth errors when component mounts
+
   useEffect(() => {
     if (error) {
       dispatch(clearError())
@@ -27,7 +26,7 @@ function App() {
 
   // Show loader while checking authentication on app start
   if (status === "loading") {
-    return <Loader />
+  return <Loader />
   }
 
   return <Outlet />

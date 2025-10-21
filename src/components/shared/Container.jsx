@@ -17,7 +17,7 @@ export function Container(
   return (
     Data.map((vid) => (
       <Card key={vid.title} className={`w-full max-w-sm ${className}`}>
-      {vid.image ? (
+      {vid.thumbnail ? (
         <CardContent >
         <img src={vid.image} alt="" />
       </CardContent>
@@ -26,7 +26,7 @@ export function Container(
       <CardFooter className="pt-2 flex flex-col gap-2 items-start">
         <CardTitle>{vid.title}</CardTitle>
         <CardDescription>
-          {vid.discription}
+          {vid.description}
         </CardDescription>
       </CardFooter>
     </Card>

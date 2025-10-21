@@ -11,8 +11,19 @@ import { Camera } from "lucide-react"
 
 function UserDashbord() {
 
-  const {register, handleSubmit, formState: {errors}} = useForm()
-  const {avatar, coverImage, email, fullname} = useSelector((state) => state.auth.user)
+  const {
+    register: registerDetails,
+    handleSubmit: handleSubmitDetails,
+    formState: { errors: errorsDetails }
+  } = useForm();
+
+  const {
+    register: registerPassword,
+    handleSubmit: handleSubmitPassword,
+    formState: { errors: errorsPassword },
+  } = useForm();
+
+  const {avatar, coverImage, email, fullname, username} = useSelector((state) => state.auth.user)
   const [isEditable, setIsEditable] = useState(false)
   const [cardHidden, setCardHidden] = useState(false)
   const avatarInputRef = useRef(null)
@@ -67,9 +78,21 @@ function UserDashbord() {
       </div>
       <div className=" w-[100%] h-[65%] flex flex-col gap-5 items-center justify-center">
           <Card hidden={cardHidden} className="w-[100%] pt-5 max-w-lg">
-              <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
+              <form onSubmit={handleSubmitDetails(onSubmit)} >
               <CardContent>
                 <div className="md:grid md:grid-cols-2 flex flex-col gap-6">
+                    <div className="grid gap-2">
+                    <Label htmlFor="username">User Name</Label>
+                    <Input
+                      id="username"
+                      type="username"
+                      readOnly={!isEditable}
+                      defaultValue={username}
+                      placeholder="User Name"
+                      {...registerDetails("username", {required: "User Name is required"})}
+                    />
+                    {errorsDetails.username && <p className="text-sm font-medium text-destructive">{errorsDetails.username.message}</p>}
+                  </div>
                   <div className="grid gap-2">
                     <Label htmlFor="email">Email</Label>
                     <Input
@@ -78,9 +101,9 @@ function UserDashbord() {
                       readOnly={!isEditable}
                       defaultValue={email}
                       placeholder="m@example.com"
-                      {...register("email", {required: "Email is required"})}
+                      {...registerDetails("email", {required: "Email is required"})}
                     />
-                    {errors.email && <p className="text-sm font-medium text-destructive">{errors.email.message}</p>}
+                    {errorsDetails.email && <p className="text-sm font-medium text-destructive">{errorsDetails.email.message}</p>}
                   </div>
                   <div className="grid gap-2">
                     <Label htmlFor="fullname">Full Name</Label>
@@ -90,9 +113,9 @@ function UserDashbord() {
                       readOnly={!isEditable}
                       defaultValue={fullname}
                       placeholder="Enter Full Name"
-                      {...register("fullname", {required: "Full Name is required"})}
+                      {...registerDetails("fullname", {required: "Full Name is required"})}
                     />
-                    {errors.fullname && <p className="text-sm font-medium text-destructive">{errors.fullname.message}</p>}
+                    {errorsDetails.fullname && <p className="text-sm font-medium text-destructive">{errorsDetails.fullname.message}</p>}
                   </div>
                 </div>
                 </CardContent>
@@ -103,28 +126,28 @@ function UserDashbord() {
               </form>
           </Card>
           <Card hidden={!cardHidden} className="w-[100%] pt-5 max-w-lg">
-              <form onSubmit={handleSubmit(ChangePassword)} encType="multipart/form-data">
+              <form onSubmit={handleSubmitPassword(ChangePassword)} >
               <CardContent>
                 <div className="md:grid md:grid-cols-2 flex flex-col gap-6">
                   <div className="grid gap-2">
-                    <Label htmlFor="oldPass">Old Password</Label>
+                    <Label htmlFor="oldPassword">Old Password</Label>
                     <Input
-                      id="oldPass"
+                      id="oldPassword"
                       type="password"
                       placeholder="Enter Old password"
-                      {...register("oldPass", {required: "Old Password is required"})}
+                      {...registerPassword("oldPassword", {required: "Old Password is required"})}
                     />
-                    {errors.oldPass && <p className="text-sm font-medium text-destructive">{errors.oldPass.message}</p>}
+                    {errorsPassword.oldPassword && <p className="text-sm font-medium text-destructive">{errorsPassword.oldPassword.message}</p>}
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="newPass">New Password</Label>
+                    <Label htmlFor="newPassword">New Password</Label>
                     <Input
-                      id="newPass"
+                      id="newPassword"
                       type="password"
                       placeholder="Enter New Password"
-                      {...register("newPass", {required: "New Password is required"})}
+                      {...registerPassword("newPassword", {required: "New Password is required"})}
                     />
-                    {errors.fullname && <p className="text-sm font-medium text-destructive">{errors.fullname.message}</p>}
+                    {errorsPassword.newPassword && <p className="text-sm font-medium text-destructive">{errorsPassword.newPassword.message}</p>}
                   </div>
                 </div>
                 </CardContent>

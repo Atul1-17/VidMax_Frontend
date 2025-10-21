@@ -1,18 +1,50 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Container } from '../components/shared/Container'
+import { useNavigate } from 'react-router'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllVideos } from '@/app/slices/videoSlice'
+import Loader from '@/components/shared/Loader'
 
 function Home() {
-  const Data = [
-    {
-      title: "The first video",
-      discription: "This is the first discription video",
-      image: "/Gemini_Generated_Image_9y60we9y60we9y60__1_-removebg-preview.png"
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const {videos, status, error} = useSelector(state => state.video)
+
+  useEffect(()=> {
+    if (status === "idle") {
+      dispatch(getAllVideos())
     }
-  ]
+  }, [status, dispatch])
+  
+  if (status === 'loading' && videos.length === 0) {
+    return (
+      <div className='w-full h-[81vh] flex justify-center items-center'>
+        <Loader />
+      </div>
+    );
+  }
+
+  if (status === 'failed') {
+    return (
+      <div className='w-full h-[81vh] flex justify-center items-center'>
+        <p className="text-red-500">Error: {error || 'Could not fetch videos.'}</p>
+      </div>
+    );
+  }
+
+  if (status === 'succeeded' && videos.length === 0) {
+    return (
+        <div className='w-full h-[81vh] flex justify-center items-center'>
+            <p>No videos found.</p>
+        </div>
+    );
+  }
 
   return (
-    <div className='w-full h-[81vh] bg-re-500 flex flex-col items-center p-5 overflow-scroll gap-4'>
-      <Container Data={Data}/>
+    <div className='w-full h-[81vh]'>
+      <div onClick={()=> navigate("/video")} className='flex flex-col items-center p-5 overflow-scroll gap-4 w-full h-[100%]'>
+        <Container Data={videos}/>
+      </div>
     </div>
   )
 }

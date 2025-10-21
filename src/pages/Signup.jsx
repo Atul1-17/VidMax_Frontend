@@ -38,7 +38,7 @@ export function Signup() {
   }
 
   return (
-    <div className=" w-full h-screen flex items-center justify-center">
+    <div className=" w-full h-screen flex items-center justify-center p-5">
     <Card className="w-full max-w-lg">
       <CardHeader>
         <CardTitle>Create an account</CardTitle>

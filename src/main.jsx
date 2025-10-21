@@ -16,8 +16,9 @@ import RootLayout from './components/shared/RootLayout'
 import ChangePassword from './pages/ChangePassword'
 import Dashbord from './components/shared/Dashbord'
 import UserDashbord from './pages/UserDashbord'
-import path from 'path'
 import Upload from './pages/Upload'
+import ShowVideo from './pages/ShowVideo'
+import ChannelProfile from './pages/ChannelProfile'
 
 const router = createBrowserRouter([
   {
@@ -58,12 +59,20 @@ const router = createBrowserRouter([
                 element: <Dashbord />
               },
               {
-                path: "userdashbord",
+                path: "/userdashbord",
                 element: <UserDashbord />
               },
               {
-                path: "upload",
+                path: "/upload",
                 element: <Upload />
+              },
+              {
+                path: "/video",
+                element: <ShowVideo />
+              },
+              {
+                path: "/channelProfile",
+                element: <ChannelProfile />
               }
             ]
           }
