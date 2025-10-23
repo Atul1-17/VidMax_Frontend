@@ -34,6 +34,18 @@ export const getAllVideos = createAsyncThunk(
     }
 )
 
+export const getVideoById = createAsyncThunk(
+    "video/getVideoById",
+    async(videoId, {rejectWithValue}) => {
+        try {
+            const response = await apiClient.get(`/videos/c/${videoId}`)
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || "Failed to fetch video")
+        }
+    }
+)
+
 const initialState = {
     videos : [],
     video: null,
@@ -84,6 +96,18 @@ const videoSlice = createSlice({
         .addCase(getAllVideos.rejected, (state, action) => {
             state.status = "failed"
             state.error = action.payload
+        })
+        .addCase(getVideoById.pending, (state, action) => {
+            state.status = "loading"
+            state.error = null
+        })
+        .addCase(getVideoById.fulfilled, (state, action) => {
+            state.status = "succeded"
+            state.video = action.payload.data
+        })
+        .addCase(getVideoById.rejected, (state, action) => {
+            state.status = "failed"
+            state.error = action.payload.message
         })
         
     }

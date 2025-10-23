@@ -1,11 +1,24 @@
-export function Container(
-  {
-    Data,
-  }
-) {
+import { useDispatch, useSelector } from "react-redux"
+import { getVideoById } from "@/app/slices/videoSlice"
+import { useNavigate } from "react-router"
+import Loader from "./Loader"
+
+export function Container({Data,}) {
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const {status} = useSelector(state => state.video)
 
   const handleVideoLoading = (videoId) => {
-      
+    dispatch(getVideoById(videoId))
+
+    if (status === "loading") {
+      <Loader />
+    }
+    else if (status === "succeded") {
+      navigate("/video")
+    }
   }
 
   return (
