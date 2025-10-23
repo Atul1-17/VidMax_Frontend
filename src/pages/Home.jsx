@@ -2,19 +2,23 @@ import React, { useEffect } from 'react'
 import { Container } from '../components/shared/Container'
 import { useNavigate } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllVideos } from '@/app/slices/videoSlice'
+import { getAllVideos } from '../app/slices/videoSlice'
 import Loader from '@/components/shared/Loader'
 
 function Home() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const {videos, status, error} = useSelector(state => state.video)
+  const {isAuthenticated} = useSelector(state => state.auth)
 
-  useEffect(()=> {
-    if (status === "idle") {
-      dispatch(getAllVideos())
+  useEffect(() => {
+    if (isAuthenticated && status === "idle") {
+      console.log("User is authenticated, dispatching getAllVideos...");
+      dispatch(getAllVideos({}));
+    } else {
+      console.log("User is NOT authenticated yet, skipping getAllVideos.");
     }
-  }, [status, dispatch])
+  }, [isAuthenticated, dispatch, status])
   
   if (status === 'loading' && videos.length === 0) {
     return (

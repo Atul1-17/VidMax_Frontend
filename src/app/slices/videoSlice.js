@@ -1,5 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { apiClient, fileApiClient } from "@/lib/axios";
+import { apiClient, fileApiClient,  } from "@/lib/axios";
+import axios from "axios";
+
+const API_URL = "http://localhost:8000/api/v1"; 
 
 export const publishVideo = createAsyncThunk(
     "video/publishVideo",
@@ -23,7 +26,7 @@ export const getAllVideos = createAsyncThunk(
             if (sortType) params.append('sortType', sortType);
             if (userId) params.append('userId', userId)
 
-            const response = apiClient.get(`/videos/getAllVideos?${params.toString()}`)
+            const response = await axios.get(`${API_URL}/videos/getAllVideos?${params.toString()}`);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || "Failed to fetch video")

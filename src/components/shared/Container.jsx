@@ -19,7 +19,7 @@ export function Container(
       <Card key={vid.title} className={`w-full max-w-sm ${className}`}>
       {vid.thumbnail ? (
         <CardContent >
-        <img src={vid.image} alt="" />
+        <img src={vid.thumbnail} alt="" />
       </CardContent>
       ) : (null)}
       <Separator />

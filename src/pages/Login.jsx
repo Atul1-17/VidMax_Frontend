@@ -33,6 +33,7 @@ export function Login() {
   }, [isAuthenticated, navigate])
 
   const onSubmit = (data) => {
+    console.log("dispatched the loginUser")
     dispatch(loginUser(data))
   }
 
