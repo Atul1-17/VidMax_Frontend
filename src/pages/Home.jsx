@@ -46,7 +46,7 @@ function Home() {
 
   return (
     <div className='w-full h-[81vh]'>
-      <div onClick={()=> navigate("/video")} className='flex flex-col items-center p-5 overflow-scroll gap-4 w-full h-[100%]'>
+      <div onClick={()=> navigate("/video")} className='flex flex-col items-center p-5 overflow-scroll gap-6 w-full h-[100%]'>
         <Container Data={videos}/>
       </div>
     </div>
