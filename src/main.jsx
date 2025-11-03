@@ -19,6 +19,8 @@ import UserDashbord from './pages/UserDashbord'
 import Upload from './pages/Upload'
 import ShowVideo from './pages/ShowVideo'
 import ChannelProfile from './pages/ChannelProfile'
+import WatchHistoryPage from './pages/WatchHistoryPage'
+import PlaylistPage from './pages/PlaylistPage'
 
 const router = createBrowserRouter([
   {
@@ -73,7 +75,15 @@ const router = createBrowserRouter([
               {
                 path: "/channelProfile",
                 element: <ChannelProfile />
-              }
+              },
+              {
+                path: "/watchHistory",
+                element: <WatchHistoryPage />
+              },
+              {
+                path: "/playlist",
+                element: <PlaylistPage />
+              },
             ]
           }
         ]

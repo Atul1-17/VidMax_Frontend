@@ -27,11 +27,13 @@ const mainVideoData = {
 // Main App Component
 export default function ShowVideo() {
   return (
-    <div className="bg-card max-h-[81vh] overflow-scroll font-sans">
+    <div className="bg-card h-[81vh] lg:h-[100vh] font-sans">
       <div className="container mx-auto max-w-screen-2xl p-2 sm:p-4 lg:p-6 lg:flex lg:gap-6">
-        <div className="lg:w-[65%] w-full">
-          <VideoPlayer />
-          <VideoDetails video={mainVideoData} />
+        <div className="lg:w-[100%] lg:flex gap-5 w-full">
+          <div>
+            <VideoPlayer />
+            <VideoDetails video={mainVideoData} />  
+          </div>
           <CommentSection />
         </div>
       </div>

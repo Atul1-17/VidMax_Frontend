@@ -4,10 +4,12 @@ import { useNavigate } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllVideos } from '../app/slices/videoSlice'
 import Loader from '@/components/shared/Loader'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 function Home() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const isMobile = useIsMobile()
   const {videos, status, error} = useSelector(state => state.video)
   const {isAuthenticated} = useSelector(state => state.auth)
 
@@ -45,11 +47,20 @@ function Home() {
   }
 
   return (
-    <div className='w-full h-[81vh]'>
-      <div onClick={()=> navigate("/video")} className='flex flex-col items-center p-5 overflow-scroll gap-6 w-full h-[100%]'>
-        <Container Data={videos}/>
-      </div>
-    </div>
+    <>
+      {isMobile && 
+      <div className='w-full h-[81vh] lg:h-[100vh]'>
+        <div onClick={()=> navigate("/video")} className='flex flex-col items-center p-5 overflow-scroll gap-6 w-full h-[100%]'>
+          <Container Data={videos}/>
+        </div>
+      </div>}
+      {!isMobile &&
+      <div className='w-full'>
+        <div onClick={()=> navigate("/video")} className='grid grid-cols-3 items-center p-5 gap-6 w-full h-[100%]'>
+          <Container Data={videos}/>
+        </div>
+      </div>}
+    </>
   )
 }
 

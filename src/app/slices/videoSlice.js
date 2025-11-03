@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { apiClient, fileApiClient,  } from "@/lib/axios";
-import axios from "axios";
+import axios from "axios"; 
 
-const API_URL = "http://localhost:8000/api/v1"; 
+const API_URL = import.meta.env.VITE_API_URL
 
 export const publishVideo = createAsyncThunk(
     "video/publishVideo",
@@ -42,6 +42,18 @@ export const getVideoById = createAsyncThunk(
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || "Failed to fetch video")
+        }
+    }
+)
+
+export const toggleVideoLike = createAsyncThunk(
+    "video/toggleVideoLike",
+    async(videoId, {rejectWithValue}) => {
+        try {
+            const response = await apiClient.post(`/likes/toggle/${videoId}`)
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || "Failed to toggle like")
         }
     }
 )
@@ -109,7 +121,6 @@ const videoSlice = createSlice({
             state.status = "failed"
             state.error = action.payload.message
         })
-        
     }
 })
 

@@ -1,9 +1,22 @@
-import React from 'react'
+import { LoaderIcon } from "lucide-react"
 
-function Loader() {
+import { cn } from "@/lib/utils"
+
+function Spinner({ className, ...props }) {
   return (
-    <div>Loading...</div>
+    <LoaderIcon
+      role="status"
+      aria-label="Loading"
+      className={cn("size-4 animate-spin", className)}
+      {...props}
+    />
   )
 }
 
-export default Loader
+export default function Loader() {
+  return (
+    <div className="h-[100vh] w-full flex items-center justify-center gap-4">
+      <Spinner className={"size-7"}/>
+    </div>
+  )
+}
