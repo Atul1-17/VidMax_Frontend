@@ -87,6 +87,30 @@ export const updateUserAvatar = createAsyncThunk(
     }
 )
 
+export const addToWatchHistory = createAsyncThunk(
+    "user/addToWatchHistory",
+    async (videoId, {rejectWithValue}) => {
+        try {
+            const response = await apiClient.patch(`/users/v/${videoId}`)
+            return response.data
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message)
+        }
+    }
+)
+
+export const getWatchHistory = createAsyncThunk(
+    "user/getWatchHistory",
+    async (_, {rejectWithValue}) => {
+        try {
+            const response = await apiClient.get("/users/watch-history")
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message)
+        }
+    }
+)
+
 export const logout = createAsyncThunk(
     "user/logout",
     async (_, {rejectWithValue}) => {
@@ -102,6 +126,7 @@ export const logout = createAsyncThunk(
 
 const initialState = {
     user: null,
+    videos: [],
     token: null,
     status: "idle",
     error: null,
@@ -215,6 +240,29 @@ const authSlice = createSlice({
                 state.isAuthenticated = true
             })
             .addCase(changeCurrentPassword.rejected, (state, action) => {
+                state.status = "failed"
+                state.error = action.payload
+            })
+            .addCase(addToWatchHistory.pending, (state, action) => {
+                state.status = "loading"
+                state.error = null
+            })
+            .addCase(addToWatchHistory.fulfilled, (state, action) => {
+                state.status = "succeded"
+            })
+            .addCase(addToWatchHistory.rejected, (state, action) => {
+                state.status = "failed"
+                state.error = action.payload
+            })
+            .addCase(getWatchHistory.pending, (state, action) => {
+                state.status = "loading"
+                state.error = null
+            })
+            .addCase(getWatchHistory.fulfilled, (state, action) => {
+                state.status = "succeded"
+                state.videos = action.payload.data
+            })
+            .addCase(getWatchHistory.rejected, (state, action) => {
                 state.status = "failed"
                 state.error = action.payload
             })

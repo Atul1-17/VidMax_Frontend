@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Container } from '../components/shared/Container'
 import { useNavigate } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
+import { getWatchHistory } from '@/app/slices/authSlice'
 import { getAllVideos } from '../app/slices/videoSlice'
 import Loader from '@/components/shared/Loader'
 import { useIsMobile } from '@/hooks/use-mobile'
@@ -17,6 +18,7 @@ function Home() {
     if (isAuthenticated && status === "idle") {
       console.log("User is authenticated, dispatching getAllVideos...");
       dispatch(getAllVideos({}));
+      dispatch(getWatchHistory())
     } else {
       console.log("User is NOT authenticated yet, skipping getAllVideos.");
     }
