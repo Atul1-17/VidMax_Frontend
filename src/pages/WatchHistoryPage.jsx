@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { getWatchHistory } from '@/app/slices/authSlice'
 import Loader from '@/components/shared/Loader'
+import { AddToPlaylist } from '@/components/shared/AddToPlaylist'
 
 function WatchHistoryPage() {
   const isMobile = useIsMobile()
@@ -41,18 +42,14 @@ function WatchHistoryPage() {
 
   return (
     <>
-      {isMobile && 
-      <div className='w-full h-[81vh] lg:h-[100vh]'>
-        <div onClick={() => navigate("/video")} className='flex flex-col items-center p-5 overflow-scroll gap-6 w-full h-[100%]'>
-          <Container Data={videos} />
-        </div>
-      </div>}
-      {!isMobile &&
       <div className='w-full'>
+        <div className=' h-[5vh] p-4 flex items-center justify-between'>
+          <h1 className='text-2xl'>History</h1>
+        </div>
         <div onClick={() => navigate("/video")} className='grid grid-cols-3 items-center p-5 gap-6 w-full h-[100%]'>
           <Container Data={videos} />
         </div>
-      </div>}
+      </div>
     </>
   )
 }

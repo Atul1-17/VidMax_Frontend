@@ -14,7 +14,7 @@ import store from './app/store'
 import ProtectedRoute from './components/shared/ProtectedRoute'
 import RootLayout from './components/shared/RootLayout'
 import ChangePassword from './pages/ChangePassword'
-import Dashbord from './components/shared/Dashbord'
+import Dashbord from './pages/Dashbord'
 import UserDashbord from './pages/UserDashbord'
 import Upload from './pages/Upload'
 import ShowVideo from './pages/ShowVideo'
@@ -97,10 +97,10 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ThemeProvider defaultTheme = "system" storageKey = "vite-ui-theme" >
+      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
         <Provider store={store}>
-          <RouterProvider router = {router}/>
+          <RouterProvider router={router}/>
         </Provider>
-    </ThemeProvider>
+      </ThemeProvider>
   </StrictMode>
 )

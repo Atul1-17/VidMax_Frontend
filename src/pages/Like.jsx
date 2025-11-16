@@ -1,6 +1,10 @@
 import { Container } from "@/components/shared/Container"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 function Like() {
+
+  const isMobile = useIsMobile()
+
   const Data = [
     {
       title: "The first video",
@@ -10,9 +14,20 @@ function Like() {
   ]
 
   return (
-    <div className='w-full h-[81vh] bg-re-500 flex flex-col items-center p-5 overflow-scroll gap-4'>
-        <Container Data={Data}/>
-    </div>
+    <>
+      {isMobile && 
+      <div className='w-full h-[81vh] lg:h-[100vh]'>
+        <div onClick={()=> navigate("/video")} className='flex flex-col items-center p-5 overflow-scroll gap-6 w-full h-[100%]'>
+          <Container Data={Data}/>
+        </div>
+      </div>}
+      {!isMobile &&
+      <div className='w-full'>
+        <div onClick={()=> navigate("/video")} className='grid grid-cols-3 items-center p-5 gap-6 w-full h-[100%]'>
+          <Container Data={Data}/>
+        </div>
+      </div>}
+    </>
   )
 }
 

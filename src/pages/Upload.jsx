@@ -8,6 +8,7 @@ import { Select, SelectTrigger, SelectValue, SelectGroup, SelectItem } from '@/c
 import Loader from "../components/shared/Loader";
 import { SelectContent } from '@radix-ui/react-select';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { ProgressBar } from '../components/shared/ProgressBar';
 
 function Upload() {
   const uploadVid = useRef(null);
@@ -87,7 +88,7 @@ function Upload() {
   };
 
   if (status === 'loading') {
-    return <Loader />
+    return <ProgressBar />
   }
 
   return (

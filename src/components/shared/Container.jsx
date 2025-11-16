@@ -44,7 +44,9 @@ export function Container({
           </div>
           <div className="flex flex-col items-center justify-center h-[100%] w-[80%]">
             <div className="h-[78%] w-full flex justify-between flex-col p-1">
-              <h1 className="text-xl font-medium">{vid.title}</h1>
+              <div className="overflow-y-hidden h-[50%]">
+                <h1 className="text-xl font-medium">{vid.title}</h1>
+              </div>
               <h2 className="opacity-80 font-medium">{username || 'Unknown User'}</h2>
             </div>
             <div className="h-[22%] w-full pl-1">

@@ -7,7 +7,7 @@ function Playlist({
 }) {
   return (
     <div className={`${className}`}>
-        <Container Data={data}/>
+        
     </div>
   )
 }

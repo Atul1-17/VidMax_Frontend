@@ -100,12 +100,12 @@ const VideoDetails = () => {
                 {/* Channel Info */}
                 <div className="flex items-center gap-3">
                     <img 
-                        src={video.owner?.avatar || 'https://placehold.co/48x48/000000/FFFFFF?text=U'} 
-                        alt={video.owner?.username} 
+                        src={video.ownerDetailes?.avatar || 'https://placehold.co/48x48/000000/FFFFFF?text=U'} 
+                        alt={video.ownerDetailes?.username} 
                         className="w-10 h-10 sm:w-12 sm:h-12 rounded-full" 
                     />
                     <div>
-                        <div className="font-semibold text-base sm:text-lg">{video.owner?.username || 'Unknown Channel'}</div>
+                        <div className="font-semibold text-base sm:text-lg">{video.ownerDetailes?.username || 'Unknown Channel'}</div>
                     </div>
                     <button
                         onClick={() => setSubscribed(!subscribed)}

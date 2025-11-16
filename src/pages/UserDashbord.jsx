@@ -51,9 +51,9 @@ function UserDashbord() {
   }
 
   return (
-    <div className='w-full h-[81vh] p-5 flex flex-col'>
-      <div className="relative h-[30%] bg-red-00">
-        <div className="z-10 h-[70%] relative">
+    <div className='w-full h-[81vh] lg:h-[88vh] p-5 flex flex-col items-center justify-center gap-2'>
+      <div className="relative h-[40%]">
+        <div className="z-10 h-[90%] lg:w-[50vw] relative">
           <img className="h-[100%] rounded-2xl object-cover w-full" src={coverImage} alt="" />
           <button></button>
         </div>
@@ -71,7 +71,7 @@ function UserDashbord() {
             hidden
           />
 
-          <div onClick={() => avatarInputRef.current.click()} className="border-2 bg-neutral-400 p-2 rounded-full absolute bottom-0 right-32">
+          <div onClick={() => avatarInputRef.current.click()} className="border-2 bg-neutral-400 p-2 rounded-full absolute bottom-0 right-32 lg:right-80">
             <Camera />
           </div>
         </div>
@@ -157,12 +157,14 @@ function UserDashbord() {
               </form>
           </Card>
           {!cardHidden ? (
-            <Button onClick={() => setCardHidden(true)} className='w-full'>Change Password</Button>
+            <Button onClick={() => setCardHidden(true)} className=''>Change Password</Button>
           ):(
             <Button onClick={() => setCardHidden(false)} className="w-full">Change User Detailes</Button>
           )}
       </div>
-      <button onClick={handleLogout} className="text-red-400">Logout</button>
+      <div>
+        <button onClick={handleLogout} className="text-red-400 p-2 rounded-2xl font-bold">Logout</button>
+      </div>
     </div>
   )
 }
