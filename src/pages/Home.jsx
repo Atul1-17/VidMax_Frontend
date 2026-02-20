@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
 import { getWatchHistory } from '@/app/slices/authSlice'
 import { getAllVideos } from '../app/slices/videoSlice'
+import { getUserPlaylists } from '@/app/slices/playlistSlice'
 import Loader from '@/components/shared/Loader'
 import { useIsMobile } from '@/hooks/use-mobile'
 
@@ -13,16 +14,18 @@ function Home() {
   const isMobile = useIsMobile()
   const {videos, status, error} = useSelector(state => state.video)
   const {isAuthenticated} = useSelector(state => state.auth)
+  const userId = useSelector(state => state.auth?.user?._id)
 
   useEffect(() => {
     if (isAuthenticated && status === "idle") {
       console.log("User is authenticated, dispatching getAllVideos...");
       dispatch(getAllVideos({}));
       dispatch(getWatchHistory())
+      dispatch(getUserPlaylists(userId))
     } else {
       console.log("User is NOT authenticated yet, skipping getAllVideos.");
     }
-  }, [isAuthenticated, dispatch, status])
+  }, [isAuthenticated, dispatch, userId, status])
   
   if (status === 'loading' && videos.length === 0) {
     return (
