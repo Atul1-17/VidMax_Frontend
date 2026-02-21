@@ -15,17 +15,24 @@ function Home() {
   const {videos, status, error} = useSelector(state => state.video)
   const {isAuthenticated} = useSelector(state => state.auth)
   const userId = useSelector(state => state.auth?.user?._id)
+  const playlistStatus = useSelector(state => state.playlist?.status)
 
   useEffect(() => {
     if (isAuthenticated && status === "idle") {
       console.log("User is authenticated, dispatching getAllVideos...");
       dispatch(getAllVideos({}));
       dispatch(getWatchHistory())
-      dispatch(getUserPlaylists(userId))
     } else {
       console.log("User is NOT authenticated yet, skipping getAllVideos.");
     }
   }, [isAuthenticated, dispatch, userId, status])
+
+  useEffect(() => {
+    if (isAuthenticated && userId && playlistStatus === "idle" ) {
+      dispatch(getUserPlaylists(userId))
+    }
+  }, [isAuthenticated, userId, dispatch])
+
   
   if (status === 'loading' && videos.length === 0) {
     return (

@@ -109,7 +109,7 @@ const playlistSlice = createSlice({
             state.status = "loading"
         })
         .addCase(createPlaylist.fulfilled, (state, action) => {
-            state.status = "succeded"
+            state.status = "succeeded"
         })
         .addCase(createPlaylist.rejected, (state, action) => {
             state.status = "failed"
@@ -119,7 +119,7 @@ const playlistSlice = createSlice({
             state.status = "loading"
         })
         .addCase(getUserPlaylists.fulfilled, (state, action) => {
-            state.status = "succeded"
+            state.status = "succeeded"
             state.playlists = action.payload.data
         })
         .addCase(getUserPlaylists.rejected, (state, action) => {
@@ -130,7 +130,7 @@ const playlistSlice = createSlice({
             state.status = "loading"
         })
         .addCase(getPlaylistById.fulfilled, (state, action) => {
-            state.status = "succeded"
+            state.status = "succeeded"
             state.playlist = action.payload.data
         })
         .addCase(getPlaylistById.rejected, (state, action) => {
@@ -141,7 +141,7 @@ const playlistSlice = createSlice({
             state.status = "loading"
         })
         .addCase(addVideoToPlaylist.fulfilled, (state, action) => {
-            state.status = "succeded"
+            state.status = "succeeded"
         })
         .addCase(addVideoToPlaylist.rejected, (state, action) => {
             state.status = "failed"
@@ -151,7 +151,7 @@ const playlistSlice = createSlice({
             state.status = "loading"
         })
         .addCase(removeVideoFromPlaylist.fulfilled, (state, action) => {
-            state.status = "succeded"
+            state.status = "succeeded"
         })
         .addCase(removeVideoFromPlaylist.rejected, (state, action) => {
             state.status = "failed"
@@ -161,7 +161,7 @@ const playlistSlice = createSlice({
             state.status = "loading"
         })
         .addCase(updatedPlaylist.fulfilled, (state, action) => {
-            state.status = "succeded"       
+            state.status = "succeeded"       
         })
         .addCase(updatedPlaylist.rejected, (state, action) => {
             state.status = "failed"
@@ -171,7 +171,7 @@ const playlistSlice = createSlice({
             state.status = "loading"
         })
         .addCase(deletePlaylist.fulfilled, (state, action) => {
-            state.status = "succeded"
+            state.status = "succeeded"
         })
         .addCase(deletePlaylist.rejected, (state, action) => {
             state.status = "failed"

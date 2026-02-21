@@ -15,25 +15,32 @@ import { Input } from '@/components/ui/input'
 import React from 'react'
 import { Pencil } from 'lucide-react'
 import { Trash2 } from 'lucide-react'
+import { useSelector } from 'react-redux'
+import Loader from '@/components/shared/Loader'
 
 function PlaylistPage() {
-  const data = [
-    {
-      title: "jdsvjh",
-      discription: 'hvashjhsh'
-    }
-  ]
+
+  const {playlists, status} = useSelector(state => state.playlist)
+
+  if (status === "loading") {
+    return (
+          <div className='w-full h-[81vh] flex justify-center items-center'>
+            <Loader />
+          </div>
+        );
+  }
+
   return (
     <div className='h-[88vh] w-full'>
       <div className='h-[5vh] flex items-center justify-between p-4'>
         <h1 className='text-2xl'>Playlist</h1>
         <AddToPlaylist/>
       </div>
-      <div className="flex h-[83vh] w-max p-4">
-            {data.map((iteam) => (
-              <div className='relative h-[30vh] w-[30vw] flex flex-col rounded-2xl items-center justify-center border-2'>
-                <h1 className=''>{iteam.title}</h1>
-                <p className='opacity-40'>{iteam.discription}</p>
+      <div className="grid grid-cols-3 h-[83vh] w-full justify-items-center p-4 gap-2">
+            {playlists.map((iteam) => (
+              <div className='relative h-[30vh] w-[25vw] flex flex-col rounded-2xl items-center justify-center border-2'>
+                <h1 className=''>{iteam.name}</h1>
+                <p className='opacity-40'>{iteam.description}</p>
                 <div className='absolute top-2 h-[20%] w-[15%] right-3 flex items-center justify-between'>
                   <Popover>
                     <PopoverTrigger>

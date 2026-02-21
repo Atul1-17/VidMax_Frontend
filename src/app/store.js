@@ -7,7 +7,7 @@ const store = configureStore({
     reducer: {
         auth: authServiceReducer,
         video: videoServiceReducer,
-        playlists: playlistServiceReducer,
+        playlist: playlistServiceReducer,
     }
 });
 
