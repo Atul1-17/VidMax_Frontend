@@ -17,10 +17,26 @@ import { Pencil } from 'lucide-react'
 import { Trash2 } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import Loader from '@/components/shared/Loader'
+import { useDispatch } from 'react-redux'
+import { deletePlaylist } from '@/app/slices/playlistSlice'
+import { getUserPlaylists } from '@/app/slices/playlistSlice'
+import { updatedPlaylist } from '@/app/slices/playlistSlice'
 
 function PlaylistPage() {
 
   const {playlists, status} = useSelector(state => state.playlist)
+  const userId = useSelector(state => state.auth?.user?._id)  
+  const dispatch = useDispatch()
+
+  const submit = async (playlistId) => {
+    try {
+      await dispatch(deletePlaylist(playlistId)).unwrap()
+      dispatch(getUserPlaylists(userId))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 
   if (status === "loading") {
     return (
@@ -38,7 +54,7 @@ function PlaylistPage() {
       </div>
       <div className="grid grid-cols-3 h-[83vh] w-full justify-items-center p-4 gap-2">
             {playlists.map((iteam) => (
-              <div className='relative h-[30vh] w-[25vw] flex flex-col rounded-2xl items-center justify-center border-2'>
+              <div key={iteam._id} className='relative h-[30vh] w-[25vw] flex flex-col rounded-2xl items-center justify-center border-2'>
                 <h1 className=''>{iteam.name}</h1>
                 <p className='opacity-40'>{iteam.description}</p>
                 <div className='absolute top-2 h-[20%] w-[15%] right-3 flex items-center justify-between'>
@@ -49,13 +65,12 @@ function PlaylistPage() {
                     <PopoverContent>
                         <div className='text-center p-2 flex flex-col gap-5'>
                           <h1>Do you want to Delete this playlist</h1>
-                          <Button className="hover:bg-red-500">Yes</Button>
+                          <Button onClick={() => submit(iteam._id)} className="hover:bg-red-500">Yes</Button>
                         </div>
                     </PopoverContent>
                   </Popover>
                     
                   <Dialog >
-                    <form>
                       <DialogTrigger asChild>
                         <Pencil size={20}/>
                       </DialogTrigger>
@@ -63,14 +78,43 @@ function PlaylistPage() {
                         <DialogHeader>
                           <DialogTitle>Update Playlist</DialogTitle>
                         </DialogHeader>
+                       <form 
+                        onSubmit={async (e) => {
+                            e.preventDefault()
+
+                            const formData = new FormData(e.currentTarget)
+
+                            const name = formData.get("name")
+                            const description = formData.get("description")
+
+                            try {
+                              await dispatch(
+                              updatedPlaylist({
+                                playlistId: iteam._id,   // ✅ passed separately
+                                name,
+                                description,
+                              })
+                          ).unwrap()
+                          dispatch(getUserPlaylists(userId))
+                          } catch (error) {
+                            console.log(error)
+                          }
+                        }}
+                        >
                         <div className="grid gap-4">
                           <div className="grid gap-3">
-                            <Label htmlFor="name-1">Title</Label>
-                            <Input id="name-1" name="name" defaultValue="New Playlist" />
+                            <Label htmlFor="name">Title</Label>
+                            <Input 
+                              id="name" 
+                              name="name" 
+                              defaultValue={iteam.name} />
                           </div>
                           <div className="grid gap-3">
-                            <Label htmlFor="username-1">Discription</Label>
-                            <Input id="username-1" name="username" defaultValue="" />
+                            <Label htmlFor="description">Description</Label>
+                            <Input 
+                              id="description" 
+                              name="description" 
+                              defaultValue={iteam.description} />
                           </div>
                         </div>
                         <DialogFooter className={"gap-2"}>
@@ -79,8 +123,8 @@ function PlaylistPage() {
                           </DialogClose>
                           <Button type="submit">Update playlist</Button>
                         </DialogFooter>
-                      </DialogContent>
-                    </form>
+                        </form>
+                      </DialogContent> 
                   </Dialog>
                 </div>
               </div>

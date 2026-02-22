@@ -17,7 +17,7 @@ export function Container({
   const handleVideo = (videoId) => {
     dispatch(getVideoById(videoId))
     dispatch(addToWatchHistory(videoId)).then(() => {
-      dispatch(getWatchHistory())
+    dispatch(getWatchHistory())
     })
     if (status === "loading") {
       <Loader />
