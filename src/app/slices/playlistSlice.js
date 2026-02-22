@@ -65,9 +65,9 @@ export const removeVideoFromPlaylist = createAsyncThunk(
 
 export const updatedPlaylist = createAsyncThunk(
     "playlists/updatedPlaylist",
-    async ({playlistId, data}, {rejectWithValue}) => {
+    async ({playlistId, name, description}, {rejectWithValue}) => {
         try {
-            const response = await apiClient.patch(`playlists/updatePlaylist/${playlistId}`, data)
+            const response = await apiClient.patch(`playlists/updatePlaylist/${playlistId}`, {name, description})
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || "Failed to Update Playlist")
