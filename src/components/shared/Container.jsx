@@ -3,6 +3,7 @@ import { getVideoById } from "@/app/slices/videoSlice"
 import { addToWatchHistory, getWatchHistory } from "@/app/slices/authSlice"
 import { useNavigate } from "react-router"
 import Loader from "./Loader"
+import { getUserPlaylistsWithVideoStatus } from "@/app/slices/playlistSlice"
 
 export function Container({
   Data,
@@ -14,8 +15,9 @@ export function Container({
 
   const {status} = useSelector(state => state.video)
 
-  const handleVideo = (videoId) => {
-    dispatch(getVideoById(videoId))
+  const handleVideo = async(videoId) => {
+    await dispatch(getVideoById(videoId)).unwrap()
+    dispatch(getUserPlaylistsWithVideoStatus(videoId))
     dispatch(addToWatchHistory(videoId)).then(() => {
     dispatch(getWatchHistory())
     })

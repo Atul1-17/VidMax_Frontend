@@ -21,6 +21,7 @@ import ShowVideo from './pages/ShowVideo'
 import ChannelProfile from './pages/ChannelProfile'
 import WatchHistoryPage from './pages/WatchHistoryPage'
 import PlaylistPage from './pages/PlaylistPage'
+import PlaylistVideoPage from './pages/PlaylistVideoPage'
 
 const router = createBrowserRouter([
   {
@@ -84,6 +85,10 @@ const router = createBrowserRouter([
                 path: "/playlist",
                 element: <PlaylistPage />
               },
+              {
+                path: "/playlistVideo",
+                element: <PlaylistVideoPage />
+              }
             ]
           }
         ]

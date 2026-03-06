@@ -21,17 +21,29 @@ import { useDispatch } from 'react-redux'
 import { deletePlaylist } from '@/app/slices/playlistSlice'
 import { getUserPlaylists } from '@/app/slices/playlistSlice'
 import { updatedPlaylist } from '@/app/slices/playlistSlice'
+import { getPlaylistById } from '@/app/slices/playlistSlice'
+import { useNavigate } from 'react-router-dom'
 
 function PlaylistPage() {
 
   const {playlists, status} = useSelector(state => state.playlist)
   const userId = useSelector(state => state.auth?.user?._id)  
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const submit = async (playlistId) => {
     try {
       await dispatch(deletePlaylist(playlistId)).unwrap()
       dispatch(getUserPlaylists(userId))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleVideoPlaylist = async(playlistId) => {
+    try {
+      await dispatch(getPlaylistById(playlistId)).unwrap()
+      navigate("/playlistVideo")
     } catch (error) {
       console.log(error)
     }
@@ -55,8 +67,10 @@ function PlaylistPage() {
       <div className="grid grid-cols-3 h-[83vh] w-full justify-items-center p-4 gap-2">
             {playlists.map((iteam) => (
               <div key={iteam._id} className='relative h-[30vh] w-[25vw] flex flex-col rounded-2xl items-center justify-center border-2'>
-                <h1 className=''>{iteam.name}</h1>
-                <p className='opacity-40'>{iteam.description}</p>
+                <div onClick={ () => handleVideoPlaylist(iteam._id) } className='h-[90%] cursor-pointer mt-10 w-full flex items-center justify-center flex-col '>
+                  <h1 className=''>{iteam.name}</h1>
+                  <p className='opacity-40'>{iteam.description}</p>
+                </div>
                 <div className='absolute top-2 h-[20%] w-[15%] right-3 flex items-center justify-between'>
                   <Popover>
                     <PopoverTrigger>

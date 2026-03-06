@@ -87,6 +87,18 @@ export const deletePlaylist = createAsyncThunk(
     }
 )
 
+export const getUserPlaylistsWithVideoStatus = createAsyncThunk(
+    "playlists/getUserPlaylistsWithVideoStatus",
+    async (videoId, {rejectWithValue}) => {
+        try {
+            const response = await apiClient.get(`playlists/getUserPlaylistsWithVideoStatus/video/${videoId}`)
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || "Failed to fetch status of video Playlist")
+        }
+    }
+)
+
 
 const initialState = {
   playlists: [],          // for getUserPlaylists

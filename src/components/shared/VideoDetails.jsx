@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import Loader from "@/components/shared/Loader"; // Assuming you have a Loader
+import { SaveToPlaylistDialog } from "./SaveToPlaylistDialog";
 
 const VideoDetails = () => {
     const { video, status, error } = useSelector(state => state.video);
@@ -123,13 +124,15 @@ const VideoDetails = () => {
 
                 {/* ✨ UPDATED: Action Buttons Section */}
                 <div className="flex items-center gap-2 overflow-x-auto pb-2">
-                    
+
+                    <SaveToPlaylistDialog />
+        
                     {/* Like/Dislike Group */}
                     <div className="flex items-center bg-ring rounded-full flex-shrink-0">
                         {/* Like Button */}
                         <button 
                             onClick={handleLike} 
-                            className="flex items-center gap-2 px-3 sm:px-4 py-2 hover:bg-gray-700 rounded-l-full transition-colors"
+                            className="flex items-center gap-2 px-3 sm:px-4 py-2 hover:bg-gray-700 rounded-full transition-colors"
                         >
                             <ThumbsUp size={20} fill={likeStatus === 'liked' ? 'white' : 'none'} />
                             <span className="text-sm font-semibold">{formatNumber(likes)}</span>
