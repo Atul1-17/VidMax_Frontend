@@ -7,6 +7,7 @@ import { getAllVideos } from '../app/slices/videoSlice'
 import { getUserPlaylists } from '@/app/slices/playlistSlice'
 import Loader from '@/components/shared/Loader'
 import { useIsMobile } from '@/hooks/use-mobile'
+import { getSubscribedChannels } from '@/app/slices/subscriptionSlice'
 
 function Home() {
   const navigate = useNavigate()
@@ -16,6 +17,7 @@ function Home() {
   const {isAuthenticated} = useSelector(state => state.auth)
   const userId = useSelector(state => state.auth?.user?._id)
   const playlistStatus = useSelector(state => state.playlist?.status)
+  const subscriptionStatus = useSelector(state => state.subscription?.status)
 
   useEffect(() => {
     if (isAuthenticated && status === "idle") {
@@ -32,6 +34,12 @@ function Home() {
       dispatch(getUserPlaylists(userId))
     }
   }, [isAuthenticated, userId, dispatch])
+
+  useEffect(() => {
+    if (isAuthenticated && userId && subscriptionStatus === "idle") {
+      dispatch(getSubscribedChannels(userId))
+    }
+  }, [isAuthenticated, userId, subscriptionStatus, dispatch])
 
   
   if (status === 'loading' && videos.length === 0) {

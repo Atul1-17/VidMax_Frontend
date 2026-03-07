@@ -17,21 +17,21 @@ import Loader from "./Loader"
 export function SaveToPlaylistDialog() {
   const dispatch = useDispatch()
 
-  const { playlists, status } = useSelector((state) => state.playlist)
+  const { playlistsWithVideoStatus, status } = useSelector((state) => state.playlist)
   const videoId = useSelector(state => state.video?.video?._id)
 
   const [selected, setSelected] = useState({})
 
   // When playlists load, pre-check ones that already contain video
   useEffect(() => {
-    if (playlists) {
+    if (playlistsWithVideoStatus) {
       const initialState = {}
-      playlists.forEach((pl) => {
+      playlistsWithVideoStatus.forEach((pl) => {
         initialState[pl._id] = pl.hasVideo
       })
       setSelected(initialState)
     }
-  }, [playlists])
+  }, [playlistsWithVideoStatus])
 
   const handleCheckboxChange = (playlistId) => {
     setSelected((prev) => ({
@@ -80,7 +80,7 @@ export function SaveToPlaylistDialog() {
 
         {/* Playlist List */}
         <div className="flex flex-col gap-3 max-h-60 overflow-y-auto mt-4">
-          {playlists?.map((pl) => (
+          {playlistsWithVideoStatus?.map((pl) => (
             <div
               key={pl._id}
               className="flex items-center justify-between p-2 rounded-lg hover:bg-muted transition"

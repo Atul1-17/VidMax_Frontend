@@ -34,8 +34,7 @@ const likeSlice = createSlice({
             state.error = null
         })
         .addCase(toggleVideoLike.fulfilled, (state, action) => {
-            state.status = "succeded"
-            state.liked = 
+            state.status = "succeded" 
         })
         .addCase(toggleVideoLike.rejected, (state, action) => {
             state.status = "failed"

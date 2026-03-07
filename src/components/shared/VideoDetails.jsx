@@ -2,11 +2,21 @@ import { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import Loader from "@/components/shared/Loader"; // Assuming you have a Loader
 import { SaveToPlaylistDialog } from "./SaveToPlaylistDialog";
+import { useDispatch } from "react-redux";
+import { toggleSubscription } from "@/app/slices/subscriptionSlice";
+import { updateVideoSubscription } from "@/app/slices/videoSlice"
+import { updateSubscribedChannels } from "@/app/slices/subscriptionSlice";
 
 const VideoDetails = () => {
     const { video, status, error } = useSelector(state => state.video);
+    const userId = useSelector(state => state.auth.user._id)
+    const subscriptionStatus = useSelector(state => state.subscription.status)
+    const channelId = video.ownerDetailes?._id
+    const subscribed = video?.isSubscribed
+    const subscriberCount = video?.subscriberCount
+    const isOwner = userId === channelId
+    const dispatch = useDispatch()
 
-    const [subscribed, setSubscribed] = useState(false);
     const [likes, setLikes] = useState(0); 
     const [dislikes, setDislikes] = useState(0); // ✨ ADDED: Initialize dislike count
     const [likeStatus, setLikeStatus] = useState('none'); 
@@ -55,6 +65,35 @@ const VideoDetails = () => {
             }
         }
     };
+
+    const handleSubscription = async () => {
+    if (!channelId) return;
+
+    try {
+        const res = await dispatch(toggleSubscription(channelId)).unwrap()
+
+        dispatch(
+            updateVideoSubscription({
+                subscribed: res.data.subscribed
+            })
+        )
+
+        dispatch(
+            updateSubscribedChannels({
+                channel: {
+                _id: channelId,
+                username: video.ownerDetailes.username,
+                fullName: video.ownerDetailes.fullName,
+                avatar: video.ownerDetailes.avatar
+                },
+                subscribed: res.data.subscribed
+            })
+        )
+
+    } catch (error) {
+        console.error(error)
+    }
+    }
 
     const handleDislike = () => {
         if (likeStatus === 'disliked') {
@@ -107,19 +146,30 @@ const VideoDetails = () => {
                     />
                     <div>
                         <div className="font-semibold text-base sm:text-lg">{video.ownerDetailes?.username || 'Unknown Channel'}</div>
+                        <div className="text-sm text-gray-400">
+                        {subscriberCount} subscribers
+                        </div>
                     </div>
-                    <button
-                        onClick={() => setSubscribed(!subscribed)}
+                    {!isOwner && (
+                        <button
+                        onClick={handleSubscription}
+                        disabled={subscriptionStatus === "loading"}
                         className={`ml-auto sm:ml-4 px-3 sm:px-4 py-2 rounded-full font-semibold text-sm sm:text-base transition-colors duration-200 ${
-                            subscribed 
-                                ? 'bg-gray-700 hover:bg-gray-600' 
-                                : 'bg-foreground text-card hover:bg-gray-200'
-                        }`}
-                    >
+                            subscribed
+                            ? "bg-gray-700 hover:bg-gray-600"
+                            : "bg-foreground text-card hover:bg-gray-200"
+                        } ${subscriptionStatus === "loading" ? "opacity-50 cursor-not-allowed" : ""}`}
+                        >
                         {subscribed ? (
-                            <span className="flex items-center gap-2"><Bell size={16} /> <span className="hidden sm:inline">Subscribed</span></span>
-                        ) : 'Subscribe'}
-                    </button>
+                            <span className="flex items-center gap-2">
+                            <Bell size={16} />
+                            <span className="hidden sm:inline">Subscribed</span>
+                            </span>
+                        ) : (
+                            "Subscribe"
+                        )}
+                        </button>
+                    )}
                 </div>
 
                 {/* ✨ UPDATED: Action Buttons Section */}
@@ -131,7 +181,7 @@ const VideoDetails = () => {
                     <div className="flex items-center bg-ring rounded-full flex-shrink-0">
                         {/* Like Button */}
                         <button 
-                            onClick={handleLike} 
+                            onClick={() => handleLike(channelId)} 
                             className="flex items-center gap-2 px-3 sm:px-4 py-2 hover:bg-gray-700 rounded-full transition-colors"
                         >
                             <ThumbsUp size={20} fill={likeStatus === 'liked' ? 'white' : 'none'} />

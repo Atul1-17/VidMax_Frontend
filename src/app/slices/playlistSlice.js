@@ -101,7 +101,8 @@ export const getUserPlaylistsWithVideoStatus = createAsyncThunk(
 
 
 const initialState = {
-  playlists: [],          // for getUserPlaylists
+  playlists: [], // for getUserPlaylists
+  playlistsWithVideoStatus: [],    
   playlist: null,         // for getPlaylistById / create / update
   status: "idle",
   error: null,
@@ -188,6 +189,16 @@ const playlistSlice = createSlice({
         .addCase(deletePlaylist.rejected, (state, action) => {
             state.status = "failed"
             state.error = action.payload
+        })
+        .addCase(getUserPlaylistsWithVideoStatus.pending, (state, action) => {
+            state.status = "loading"
+        })
+        .addCase(getUserPlaylistsWithVideoStatus.fulfilled, (state, action) => {
+            state.status = "succeeded"
+            state.playlistsWithVideoStatus = action.payload.data
+        })
+        .addCase(getUserPlaylistsWithVideoStatus.rejected, (state, action) => {
+            state.status = "failed"
         })
     }
 })

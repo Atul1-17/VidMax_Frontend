@@ -82,6 +82,20 @@ const videoSlice = createSlice({
     reducers: {
         clearError: (state) => {
             state.error = null
+        },
+
+        updateVideoSubscription: (state, action) => {
+            const { subscribed } = action.payload
+
+            if (!state.video) return
+
+            state.video.isSubscribed = subscribed
+
+            if (subscribed) {
+                state.video.subscriberCount += 1
+            } else {
+                state.video.subscriberCount -= 1
+            }
         }
     },
     extraReducers: (builder) => {
@@ -124,5 +138,5 @@ const videoSlice = createSlice({
     }
 })
 
-export const {clearError} = videoSlice.actions;
+export const {clearError, updateVideoSubscription} = videoSlice.actions;
 export default videoSlice.reducer;

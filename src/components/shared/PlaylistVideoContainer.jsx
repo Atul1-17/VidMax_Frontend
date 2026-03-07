@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router"
 import { getVideoById } from "@/app/slices/videoSlice"
 import { addToWatchHistory, getWatchHistory } from "@/app/slices/authSlice"
+import { getUserPlaylistsWithVideoStatus } from "@/app/slices/playlistSlice"
 
 export function PlaylistVideoContainer({ videos }) {
   const dispatch = useDispatch()
@@ -9,6 +10,7 @@ export function PlaylistVideoContainer({ videos }) {
 
   const handleVideo = async (videoId) => {
     await dispatch(getVideoById(videoId)).unwrap()
+    await getUserPlaylistsWithVideoStatus(videoId).unwrap()
     await dispatch(addToWatchHistory(videoId)).unwrap()
     dispatch(getWatchHistory())
     navigate("/video")
